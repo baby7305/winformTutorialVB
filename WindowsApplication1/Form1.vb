@@ -1,17 +1,30 @@
 ﻿Public Class Form1
     Public Sub New()
 
-        Me.Text = "Icon"
+        Me.Text = "Quit button"
         Me.Size = New Size(250, 200)
 
-        Try
-            Icon = New Icon("res/web.ico")
-        Catch e As Exception
-            Console.WriteLine(e.Message)
-            Environment.Exit(1)
-        End Try
+        Me.InitUI()
 
         Me.CenterToScreen()
 
+    End Sub
+
+    Private Sub InitUI()
+
+        Dim button As New Button
+
+        button.Location = New Point(30, 20)
+        button.Text = "Quit"
+        button.Parent = Me
+
+        AddHandler button.Click, AddressOf Me.OnClick
+
+        Me.CenterToScreen()
+
+    End Sub
+
+    Private Sub OnClick(ByVal sender As Object, ByVal e As EventArgs)
+        Me.Close()
     End Sub
 End Class
