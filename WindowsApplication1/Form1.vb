@@ -1,8 +1,8 @@
 ﻿Public Class Form1
     Public Sub New()
 
-        Me.Text = "Check menu item"
-        Me.Size = New Size(380, 220)
+        Me.Text = "Editor"
+        Me.Size = New Size(220, 170)
 
         Me.InitUI()
 
@@ -12,21 +12,25 @@
 
     Private Sub InitUI()
 
-        Me.Text = "Anchor"
-        Size = New Size(210, 210)
+        Dim mainMenu As New MainMenu
+        Dim file As MenuItem = mainMenu.MenuItems.Add("&File")
+        file.MenuItems.Add(New MenuItem("E&xit",
+                                        New EventHandler(AddressOf Me.OnExit), Shortcut.CtrlX))
 
-        Dim btn1 As New Button
-        btn1.Text = "Button"
-        btn1.Parent = Me
-        btn1.Location = New Point(30, 30)
+        Menu = mainMenu
 
-        Dim btn2 As New Button
-        btn2.Text = "Button"
-        btn2.Parent = Me
-        btn2.Location = New Point(30, 80)
-        btn2.Anchor = AnchorStyles.Right
+        Dim tb As New TextBox
+        tb.Parent = Me
+        tb.Dock = DockStyle.Fill
+        tb.Multiline = True
 
-        Me.CenterToScreen()
+        Dim sb As New StatusBar
+        sb.Parent = Me
+        sb.Text = "Ready"
 
+    End Sub
+
+    Private Sub OnExit(ByVal sender As Object, ByVal e As EventArgs)
+        Me.Close()
     End Sub
 End Class
