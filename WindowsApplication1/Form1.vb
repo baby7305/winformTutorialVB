@@ -1,14 +1,9 @@
 ﻿Public Class Form1
-    Private col As Color
-
-    Private Const rectWidth As Integer = 100
-    Private Const rectHeight As Integer = 100
-    Private r As Rectangle
-
+    Private txt As Label
 
     Public Sub New()
 
-        Me.Text = "ColorDialog"
+        Me.Text = "FontDialog"
         Me.Size = New Size(300, 250)
 
         Me.InitUI()
@@ -20,49 +15,43 @@
     Private Sub InitUI()
 
         Dim tbar As New ToolBar
+        tbar.Parent = Me
+
         Dim open As New ToolBarButton
-        open.Text = "color"
-
-        col = Color.Blue
-
+        open.Text = "font"
         tbar.Buttons.Add(open)
 
-        Me.LocateRect()
+        txt = New Label
+        txt.Parent = Me
+        txt.Text = "Winforms tutorial"
 
-        Me.SetStyle(ControlStyles.ResizeRedraw, True)
-        Controls.Add(tbar)
+        Me.LocateText()
 
-        AddHandler Me.Paint, AddressOf Me.OnPaint
+        txt.AutoSize = True
+
+        AddHandler Me.Resize, AddressOf Me.OnResize
         AddHandler tbar.ButtonClick, AddressOf Me.OnClicked
-
-    End Sub
-
-    Private Sub OnPaint(ByVal sender As Object, ByVal e As PaintEventArgs)
-
-        Dim g As Graphics = e.Graphics
-        Me.LocateRect()
-
-        Dim brsh As New SolidBrush(col)
-
-        g.FillRectangle(brsh, r)
 
     End Sub
 
     Private Sub OnClicked(ByVal sender As Object,
                           ByVal e As ToolBarButtonClickEventArgs)
 
-        Dim dialog As New ColorDialog
+        Dim dialog As New FontDialog
 
         If dialog.ShowDialog(Me) = DialogResult.OK Then
-            col = dialog.Color
-            Me.Invalidate()
+            txt.Font = dialog.Font
+            Me.LocateText()
         End If
 
     End Sub
 
-    Private Sub LocateRect()
-        Dim x As Integer = (Me.ClientSize.Width - rectWidth) / 2
-        Dim y As Integer = (Me.ClientSize.Height - rectHeight) / 2
-        r = New Rectangle(x, y, rectWidth, rectHeight)
+    Private Sub LocateText()
+        txt.Top = (Me.ClientSize.Height - txt.Height) / 2
+        txt.Left = (Me.ClientSize.Width - txt.Width) / 2
+    End Sub
+
+    Private Sub OnResize(ByVal sender As Object, ByVal e As EventArgs)
+        Me.LocateText()
     End Sub
 End Class
