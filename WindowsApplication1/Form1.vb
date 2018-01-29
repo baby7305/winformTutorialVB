@@ -1,7 +1,9 @@
 ﻿Public Class Form1
+    Dim sb As StatusBar
+
     Public Sub New()
 
-        Me.Text = "Submenu"
+        Me.Text = "Check menu item"
         Me.Size = New Size(380, 220)
 
         Me.InitUI()
@@ -12,39 +14,45 @@
 
     Private Sub InitUI()
 
-        Dim ms As New MenuStrip
-        ms.Parent = Me
+        sb = New StatusBar
+        sb.Parent = Me
+        sb.Text = "Ready"
 
-        Dim fileItem As New ToolStripMenuItem("&File")
-        Dim exitItem As New ToolStripMenuItem("&Exit", Nothing,
-                                              New EventHandler(AddressOf OnExit))
+        Dim mainMenu As New MainMenu
 
-        exitItem.ShortcutKeys = Keys.Control Or Keys.X
+        Dim file As MenuItem = mainMenu.MenuItems.Add("&File")
+        file.MenuItems.Add(New MenuItem("E&xit",
+                                        New EventHandler(AddressOf OnExit), Shortcut.CtrlX))
 
-        Dim import As New ToolStripMenuItem
-        import.Text = "Import"
+        Dim view As MenuItem = mainMenu.MenuItems.Add("&View")
+        Dim viewStatusBar As New MenuItem("View StatusBar")
+        viewStatusBar.Checked = True
+        view.MenuItems.Add(viewStatusBar)
 
-        Dim temp As New ToolStripMenuItem
-        temp.Text = "Import newsfeed list..."
-        import.DropDownItems.Add(temp)
+        Me.Menu = mainMenu
 
-        temp = New ToolStripMenuItem
-        temp.Text = "Import bookmarks..."
-        import.DropDownItems.Add(temp)
+        AddHandler viewStatusBar.Click, AddressOf Me.ToggleStatusBar
 
-        temp = New ToolStripMenuItem
-        temp.Text = "Import mail..."
-
-        import.DropDownItems.Add(temp)
-        fileItem.DropDownItems.Add(import)
-        fileItem.DropDownItems.Add(exitItem)
-
-        ms.Items.Add(fileItem)
-        Me.MainMenuStrip = ms
 
     End Sub
+
+    Private Sub ToggleStatusBar(ByVal sender As Object, ByVal e As EventArgs)
+
+        Dim check As Boolean = sender.Checked
+
+        If check Then
+            sb.Visible = False
+            sender.Checked = False
+        Else
+            sb.Visible = True
+            sender.Checked = True
+        End If
+
+    End Sub
+
 
     Private Sub OnExit(ByVal sender As Object, ByVal e As EventArgs)
         Me.Close()
     End Sub
+
 End Class
