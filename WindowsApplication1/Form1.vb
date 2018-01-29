@@ -1,10 +1,8 @@
 ﻿Public Class Form1
-    Dim sb As StatusBar
-
     Public Sub New()
 
-        Me.Text = "Check menu item"
-        Me.Size = New Size(380, 220)
+        Me.Text = "MenuStrip"
+        Me.Size = New Size(250, 200)
 
         Me.InitUI()
 
@@ -14,42 +12,35 @@
 
     Private Sub InitUI()
 
-        sb = New StatusBar
-        sb.Parent = Me
-        sb.Text = "Ready"
+        Dim menuStrip As New MenuStrip
 
-        Dim mainMenu As New MainMenu
+        Dim titem1 As New ToolStripMenuItem("File")
+        menuStrip.Items.Add(titem1)
 
-        Dim file As MenuItem = mainMenu.MenuItems.Add("&File")
-        file.MenuItems.Add(New MenuItem("E&xit",
-                                        New EventHandler(AddressOf OnExit), Shortcut.CtrlX))
+        Dim titem2 As New ToolStripMenuItem("Tools")
+        menuStrip.Items.Add(titem2)
 
-        Dim view As MenuItem = mainMenu.MenuItems.Add("&View")
-        Dim viewStatusBar As New MenuItem("View StatusBar")
-        viewStatusBar.Checked = True
-        view.MenuItems.Add(viewStatusBar)
+        Dim subm1 As New ToolStripMenuItem("New")
+        subm1.Image = Image.FromFile("res/new.png")
+        titem1.DropDownItems.Add(subm1)
 
-        Me.Menu = mainMenu
+        Dim subm2 As New ToolStripMenuItem("Open")
+        subm2.Image = Image.FromFile("res/open.png")
+        titem1.DropDownItems.Add(subm2)
 
-        AddHandler viewStatusBar.Click, AddressOf Me.ToggleStatusBar
+        titem1.DropDownItems.Add(New ToolStripSeparator)
 
+        Dim subm3 As New ToolStripMenuItem("Exit")
+        subm3.Image = Image.FromFile("res/exit.png")
+        titem1.DropDownItems.Add(subm3)
 
-    End Sub
+        AddHandler subm3.Click, AddressOf Me.OnExit
 
-    Private Sub ToggleStatusBar(ByVal sender As Object, ByVal e As EventArgs)
+        Controls.Add(menuStrip)
 
-        Dim check As Boolean = sender.Checked
-
-        If check Then
-            sb.Visible = False
-            sender.Checked = False
-        Else
-            sb.Visible = True
-            sender.Checked = True
-        End If
+        MainMenuStrip = menuStrip
 
     End Sub
-
 
     Private Sub OnExit(ByVal sender As Object, ByVal e As EventArgs)
         Me.Close()
