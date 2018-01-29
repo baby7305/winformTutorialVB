@@ -3,8 +3,8 @@
 
     Public Sub New()
 
-        Me.Text = "MonthCalendar"
-        Me.Size = New Size(240, 240)
+        Me.Text = "TextBox"
+        Me.Size = New Size(250, 200)
 
         Me.InitUI()
 
@@ -14,24 +14,24 @@
 
     Private Sub InitUI()
 
-        Dim calendar As New MonthCalendar
-        calendar.Parent = Me
-        calendar.Location = New Point(20, 20)
-
         label = New Label
-        label.Location = New Point(40, 170)
         label.Parent = Me
-        Dim dt As DateTime = calendar.SelectionStart
-        label.Text = dt.Month & "/" & dt.Day & "/" & dt.Year
+        label.Text = "..."
+        label.Location = New Point(60, 40)
+        label.AutoSize = True
 
-        AddHandler calendar.DateSelected, AddressOf Me.OnSel
+        Dim tbox As New TextBox
+        tbox.Parent = Me
+        tbox.Location = New Point(60, 100)
+
+        AddHandler tbox.KeyUp, AddressOf Me.OnKeyUp
+
+    End Sub
+
+    Private Sub OnKeyUp(ByVal sender As Object, ByVal e As KeyEventArgs)
+
+        Me.label.Text = sender.Text
 
     End Sub
 
-    Private Sub OnSel(ByVal sender As Object, ByVal e As DateRangeEventArgs)
-
-        Dim dt As DateTime = sender.SelectionStart
-        label.Text = dt.Month & "/" & dt.Day & "/" & dt.Year
-
-    End Sub
 End Class
