@@ -1,16 +1,10 @@
 ﻿Imports System.Drawing.Drawing2D
 
 Public Class Form1
-    Private rotunda As Bitmap
-    Private gs As Bitmap
-
     Public Sub New()
 
-        Me.Text = "Grayscale"
-        Me.Size = New Size(290, 150)
-
-        rotunda = Me.LoadImage
-        gs = GrayScale(rotunda.Clone)
+        Me.Text = "You know I'm no Good"
+        Me.Size = New Size(380, 450)
 
         AddHandler Me.Paint, AddressOf Me.OnPaint
 
@@ -18,46 +12,52 @@ Public Class Form1
 
     End Sub
 
-    Private Function LoadImage() As Bitmap
-
-        Try
-            rotunda = New Bitmap("res/rotunda.jpg")
-            Return rotunda
-        Catch
-            Console.WriteLine("Image not found")
-            Environment.Exit(1)
-        End Try
-
-    End Function
-
-    Private Function GrayScale(ByVal image As Bitmap) As Bitmap
-
-        Dim w As Integer = image.Width
-        Dim h As Integer = image.Height
-
-        For i As Integer = 0 To w - 1
-            For j As Integer = 0 To h - 1
-                Dim c As Color = image.GetPixel(i, j)
-                Dim lum As Double = 0.299 * c.R + 0.587 * c.G + 0.114 * c.B
-                image.SetPixel(i, j, Color.FromArgb(lum, lum, lum))
-            Next
-        Next
-
-        Return image
-
-    End Function
-
 
     Private Sub OnPaint(ByVal sender As Object, ByVal e As PaintEventArgs)
 
         Dim g As Graphics = e.Graphics
 
-        Dim r1 As New Rectangle(15, 15, rotunda.Width, rotunda.Height)
-        g.DrawImage(rotunda, r1)
+        Dim ft As New Font("Purisa", 10)
+        Dim br As New SolidBrush(Color.Black)
 
-        Dim r2 As New Rectangle(150, 15, gs.Width, gs.Height)
-        g.DrawImage(gs, r2)
+        Dim pt As PointF = New PointF(20.0F, 20.0F)
+        g.DrawString("Meet you downstairs in the bar and heard", ft, br, pt)
 
+        pt = New PointF(20.0F, 50.0F)
+        g.DrawString("Your rolled up sleeves and your skull t-shirt", ft, br, pt)
+
+        pt = New PointF(20.0F, 80.0F)
+        g.DrawString("You say why did you do it with him today?", ft, br, pt)
+
+        pt = New PointF(20.0F, 110.0F)
+        g.DrawString("And sniffed me out like I was tanqueray", ft, br, pt)
+
+        pt = New PointF(20.0F, 160.0F)
+        g.DrawString("Cause you’re my fella, my guy", ft, br, pt)
+
+        pt = New PointF(20.0F, 190.0F)
+        g.DrawString("Hand me your stella and fly", ft, br, pt)
+
+        pt = New PointF(20.0F, 220.0F)
+        g.DrawString("By the time I’m out the door", ft, br, pt)
+
+        pt = New PointF(20.0F, 250.0F)
+        g.DrawString("You tear me down like roger moore", ft, br, pt)
+
+        pt = New PointF(20.0F, 300.0F)
+        g.DrawString("I cheated myself", ft, br, pt)
+
+        pt = New PointF(20.0F, 330.0F)
+        g.DrawString("Like I knew I would", ft, br, pt)
+
+        pt = New PointF(20.0F, 360.0F)
+        g.DrawString("I told ya, I was trouble", ft, br, pt)
+
+        pt = New PointF(20.0F, 390.0F)
+        g.DrawString("You know that I’m no good", ft, br, pt)
+
+        ft.Dispose()
+        br.Dispose()
         g.Dispose()
 
     End Sub
