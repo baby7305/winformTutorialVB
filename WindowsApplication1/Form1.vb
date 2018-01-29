@@ -1,9 +1,11 @@
-﻿Public Class Form1
-    Private txt As Label
+﻿Imports System.IO
+
+Public Class Form1
+    Private txtBox As TextBox
 
     Public Sub New()
 
-        Me.Text = "FontDialog"
+        Me.Text = "OpenDialog"
         Me.Size = New Size(300, 250)
 
         Me.InitUI()
@@ -18,18 +20,17 @@
         tbar.Parent = Me
 
         Dim open As New ToolBarButton
-        open.Text = "font"
+        open.Text = "file"
         tbar.Buttons.Add(open)
 
-        txt = New Label
-        txt.Parent = Me
-        txt.Text = "Winforms tutorial"
+        txtBox = New TextBox
+        txtBox.Parent = Me
+        txtBox.Multiline = True
+        txtBox.ScrollBars = ScrollBars.Both
+        txtBox.WordWrap = False
+        txtBox.Parent = Me
+        txtBox.Dock = DockStyle.Fill
 
-        Me.LocateText()
-
-        txt.AutoSize = True
-
-        AddHandler Me.Resize, AddressOf Me.OnResize
         AddHandler tbar.ButtonClick, AddressOf Me.OnClicked
 
     End Sub
@@ -37,21 +38,18 @@
     Private Sub OnClicked(ByVal sender As Object,
                           ByVal e As ToolBarButtonClickEventArgs)
 
-        Dim dialog As New FontDialog
+        Dim dia As New OpenFileDialog
+        dia.Filter = "VB files (*.vb)|*.vb"
 
-        If dialog.ShowDialog(Me) = DialogResult.OK Then
-            txt.Font = dialog.Font
-            Me.LocateText()
+        If dia.ShowDialog(Me) = DialogResult.OK Then
+
+            Dim reader As New StreamReader(dia.FileName)
+            Dim data As String = reader.ReadToEnd
+
+            reader.Close()
+            txtBox.Text = data
+
         End If
 
-    End Sub
-
-    Private Sub LocateText()
-        txt.Top = (Me.ClientSize.Height - txt.Height) / 2
-        txt.Left = (Me.ClientSize.Width - txt.Width) / 2
-    End Sub
-
-    Private Sub OnResize(ByVal sender As Object, ByVal e As EventArgs)
-        Me.LocateText()
     End Sub
 End Class
