@@ -3,8 +3,8 @@
 Public Class Form1
     Public Sub New()
 
-        Me.Text = "Hatches"
-        Me.Size = New Size(360, 300)
+        Me.Text = "Basic Shapes"
+        Me.Size = New Size(420, 280)
 
         AddHandler Me.Paint, AddressOf Me.OnPaint
 
@@ -16,36 +16,27 @@ Public Class Form1
     Private Sub OnPaint(ByVal sender As Object, ByVal e As PaintEventArgs)
 
         Dim g As Graphics = e.Graphics
+        g.SmoothingMode = SmoothingMode.AntiAlias
 
-        Dim hb As HatchBrush = New HatchBrush(HatchStyle.Cross, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 10, 15, 90, 60)
+        g.FillRectangle(Brushes.Gray, 20, 20, 120, 80)
+        g.FillRectangle(Brushes.Gray, 180, 20, 80, 80)
 
-        hb = New HatchBrush(HatchStyle.Percent05, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 130, 15, 90, 60)
+        g.FillEllipse(Brushes.Gray, 30, 120, 100, 100)
+        g.FillEllipse(Brushes.Gray, 160, 130, 100, 70)
 
-        hb = New HatchBrush(HatchStyle.SolidDiamond, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 250, 15, 90, 60)
+        Dim points(5) As Point
 
-        hb = New HatchBrush(HatchStyle.DiagonalBrick, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 10, 105, 90, 60)
+        points(0) = New Point(300, 40)
+        points(1) = New Point(340, 15)
+        points(2) = New Point(380, 40)
+        points(3) = New Point(380, 80)
+        points(4) = New Point(340, 105)
+        points(5) = New Point(300, 80)
 
-        hb = New HatchBrush(HatchStyle.Divot, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 130, 105, 90, 60)
-
-        hb = New HatchBrush(HatchStyle.Wave, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 250, 105, 90, 60)
-
-        hb = New HatchBrush(HatchStyle.ZigZag, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 10, 195, 90, 60)
-
-        hb = New HatchBrush(HatchStyle.Sphere, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 130, 195, 90, 60)
-
-        hb = New HatchBrush(HatchStyle.Shingle, Color.Black, Me.BackColor)
-        g.FillRectangle(hb, 250, 195, 90, 60)
+        g.FillPolygon(Brushes.Gray, points)
+        g.FillPie(Brushes.Gray, New Rectangle(290, 130, 90, 90), 0, 315)
 
         g.Dispose()
-        hb.Dispose()
 
     End Sub
 End Class
