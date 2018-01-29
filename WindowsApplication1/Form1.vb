@@ -1,14 +1,11 @@
 ﻿Public Class Form1
-    Private isDragging As Boolean = False
-    Private oldX As Integer
-    Private oldY As Integer
-    Private button As Button
-
+    Private txtBox As TextBox
+    Private btn As Button
 
     Public Sub New()
 
-        Me.Text = "Drag & Drop button"
-        Me.Size = New Size(270, 180)
+        Me.Text = "Drag & Drop text"
+        Me.Size = New Size(250, 200)
 
         Me.InitUI()
 
@@ -18,32 +15,33 @@
 
     Private Sub InitUI()
 
-        button = New Button
-        button.Parent = Me
-        button.Cursor = Cursors.Hand
-        button.Text = "Button"
-        button.Location = New Point(20, 20)
+        btn = New Button
+        txtBox = New TextBox
+        Me.SuspendLayout()
 
-        AddHandler button.MouseDown, AddressOf Me.OnMouseDown
-        AddHandler button.MouseUp, AddressOf Me.OnMouseUp
-        AddHandler button.MouseMove, AddressOf Me.OnMouseMove
+        btn.AllowDrop = True
+        btn.Location = New Point(150, 50)
+        txtBox.Location = New Point(15, 50)
 
+        Me.Controls.Add(btn)
+        Me.Controls.Add(txtBox)
+        Me.ResumeLayout()
+
+        AddHandler btn.DragEnter, AddressOf Me.OnDragEnter
+        AddHandler btn.DragDrop, AddressOf Me.OnDragDrop
+        AddHandler txtBox.MouseDown, AddressOf Me.OnMouseDown
+
+    End Sub
+
+    Private Sub OnDragEnter(ByVal sender As Object, ByVal e As DragEventArgs)
+        e.Effect = DragDropEffects.Copy
+    End Sub
+
+    Private Sub OnDragDrop(ByVal sender As Object, ByVal e As DragEventArgs)
+        sender.Text = e.Data.GetData(DataFormats.Text)
     End Sub
 
     Private Sub OnMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
-        isDragging = True
-        oldX = e.X
-        oldY = e.Y
-    End Sub
-
-    Private Sub OnMouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
-        If isDragging Then
-            button.Top = button.Top + (e.Y - oldY)
-            button.Left = button.Left + (e.X - oldX)
-        End If
-    End Sub
-
-    Private Sub OnMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs)
-        isDragging = False
+        sender.DoDragDrop(sender.Text, DragDropEffects.Copy)
     End Sub
 End Class
