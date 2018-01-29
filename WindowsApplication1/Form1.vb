@@ -1,8 +1,8 @@
 ﻿Public Class Form1
     Public Sub New()
 
-        Me.Text = "Simple menu"
-        Me.Size = New Size(220, 170)
+        Me.Text = "Submenu"
+        Me.Size = New Size(380, 220)
 
         Me.InitUI()
 
@@ -20,10 +20,27 @@
                                               New EventHandler(AddressOf OnExit))
 
         exitItem.ShortcutKeys = Keys.Control Or Keys.X
+
+        Dim import As New ToolStripMenuItem
+        import.Text = "Import"
+
+        Dim temp As New ToolStripMenuItem
+        temp.Text = "Import newsfeed list..."
+        import.DropDownItems.Add(temp)
+
+        temp = New ToolStripMenuItem
+        temp.Text = "Import bookmarks..."
+        import.DropDownItems.Add(temp)
+
+        temp = New ToolStripMenuItem
+        temp.Text = "Import mail..."
+
+        import.DropDownItems.Add(temp)
+        fileItem.DropDownItems.Add(import)
         fileItem.DropDownItems.Add(exitItem)
 
         ms.Items.Add(fileItem)
-        MainMenuStrip = ms
+        Me.MainMenuStrip = ms
 
     End Sub
 
