@@ -1,8 +1,10 @@
 ﻿Public Class Form1
+    Dim sb As StatusBar
+
     Public Sub New()
 
-        Me.Text = "MenuStrip"
-        Me.Size = New Size(250, 200)
+        Me.Text = "Toolbar"
+        Me.Size = New Size(250, 220)
 
         Me.InitUI()
 
@@ -12,38 +14,35 @@
 
     Private Sub InitUI()
 
-        Dim menuStrip As New MenuStrip
+        Dim toolBar As New ToolBar
+        toolBar.Parent = Me
+        Dim toolBarIcons As New ImageList
+        Dim saveb As New ToolBarButton
+        Dim exitb As New ToolBarButton
 
-        Dim titem1 As New ToolStripMenuItem("File")
-        menuStrip.Items.Add(titem1)
+        saveb.ImageIndex = 0
+        saveb.Tag = "Save"
+        exitb.ImageIndex = 1
+        exitb.Tag = "Exit"
 
-        Dim titem2 As New ToolStripMenuItem("Tools")
-        menuStrip.Items.Add(titem2)
+        toolBar.ImageList = toolBarIcons
+        toolBar.ShowToolTips = True
+        toolBar.Buttons.AddRange(New ToolBarButton() {saveb, exitb})
 
-        Dim subm1 As New ToolStripMenuItem("New")
-        subm1.Image = Image.FromFile("res/new.png")
-        titem1.DropDownItems.Add(subm1)
+        toolBarIcons.Images.Add(New Icon("res/new.ico"))
+        toolBarIcons.Images.Add(New Icon("res/exit.ico"))
 
-        Dim subm2 As New ToolStripMenuItem("Open")
-        subm2.Image = Image.FromFile("res/open.png")
-        titem1.DropDownItems.Add(subm2)
-
-        titem1.DropDownItems.Add(New ToolStripSeparator)
-
-        Dim subm3 As New ToolStripMenuItem("Exit")
-        subm3.Image = Image.FromFile("res/exit.png")
-        titem1.DropDownItems.Add(subm3)
-
-        AddHandler subm3.Click, AddressOf Me.OnExit
-
-        Controls.Add(menuStrip)
-
-        MainMenuStrip = menuStrip
+        AddHandler toolBar.ButtonClick, AddressOf Me.OnClicked
 
     End Sub
 
-    Private Sub OnExit(ByVal sender As Object, ByVal e As EventArgs)
-        Me.Close()
+
+    Private Sub OnClicked(ByVal sender As Object,
+                          ByVal e As ToolBarButtonClickEventArgs)
+
+        If e.Button.Tag.Equals("Exit") Then
+            Me.Close()
+        End If
     End Sub
 
 End Class
