@@ -3,7 +3,7 @@
 
     Public Sub New()
 
-        Me.Text = "ComboBox"
+        Me.Text = "MonthCalendar"
         Me.Size = New Size(240, 240)
 
         Me.InitUI()
@@ -14,28 +14,24 @@
 
     Private Sub InitUI()
 
-        Dim cb As New ComboBox
-        cb.Parent = Me
-        cb.Location = New Point(50, 30)
-
-        cb.Items.AddRange(New Object() {"Ubuntu",
-                                        "Mandriva",
-                                        "Red Hat",
-                                        "Fedora",
-                                        "Gentoo"})
+        Dim calendar As New MonthCalendar
+        calendar.Parent = Me
+        calendar.Location = New Point(20, 20)
 
         label = New Label
-        label.Location = New Point(50, 140)
+        label.Location = New Point(40, 170)
         label.Parent = Me
-        label.Text = "..."
+        Dim dt As DateTime = calendar.SelectionStart
+        label.Text = dt.Month & "/" & dt.Day & "/" & dt.Year
 
-        AddHandler cb.SelectionChangeCommitted, AddressOf Me.OnChanged
+        AddHandler calendar.DateSelected, AddressOf Me.OnSel
 
     End Sub
 
-    Private Sub OnChanged(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub OnSel(ByVal sender As Object, ByVal e As DateRangeEventArgs)
 
-        label.Text = sender.Text
+        Dim dt As DateTime = sender.SelectionStart
+        label.Text = dt.Month & "/" & dt.Day & "/" & dt.Year
 
     End Sub
 End Class
