@@ -1,8 +1,10 @@
 ﻿Public Class Form1
+    Private label As Label
+
     Public Sub New()
 
-        Me.Text = "CheckBox"
-        Me.Size = New Size(220, 170)
+        Me.Text = "ComboBox"
+        Me.Size = New Size(240, 240)
 
         Me.InitUI()
 
@@ -12,23 +14,28 @@
 
     Private Sub InitUI()
 
-        Dim cb As New CheckBox
+        Dim cb As New ComboBox
         cb.Parent = Me
-        cb.Location = New Point(30, 30)
-        cb.Text = "Show Title"
-        cb.Checked = True
+        cb.Location = New Point(50, 30)
 
-        AddHandler cb.CheckedChanged, AddressOf Me.OnChanged
+        cb.Items.AddRange(New Object() {"Ubuntu",
+                                        "Mandriva",
+                                        "Red Hat",
+                                        "Fedora",
+                                        "Gentoo"})
+
+        label = New Label
+        label.Location = New Point(50, 140)
+        label.Parent = Me
+        label.Text = "..."
+
+        AddHandler cb.SelectionChangeCommitted, AddressOf Me.OnChanged
 
     End Sub
 
     Private Sub OnChanged(ByVal sender As Object, ByVal e As EventArgs)
 
-        If sender.Checked Then
-            Text = "CheckBox"
-        Else
-            Text = ""
-        End If
+        label.Text = sender.Text
 
     End Sub
 End Class
