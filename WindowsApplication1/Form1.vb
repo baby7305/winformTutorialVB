@@ -1,10 +1,10 @@
 ﻿Public Class Form1
-    Private label As Label
+    Private sb As StatusBar
 
     Public Sub New()
 
-        Me.Text = "TextBox"
-        Me.Size = New Size(250, 200)
+        Me.Text = "ListBox"
+        Me.Size = New Size(210, 210)
 
         Me.InitUI()
 
@@ -14,24 +14,26 @@
 
     Private Sub InitUI()
 
-        label = New Label
-        label.Parent = Me
-        label.Text = "..."
-        label.Location = New Point(60, 40)
-        label.AutoSize = True
+        Dim lb As New ListBox
+        lb.Parent = Me
+        lb.Items.Add("Jessica")
+        lb.Items.Add("Rachel")
+        lb.Items.Add("Angelina")
+        lb.Items.Add("Amy")
+        lb.Items.Add("Jennifer")
+        lb.Items.Add("Scarlett")
 
-        Dim tbox As New TextBox
-        tbox.Parent = Me
-        tbox.Location = New Point(60, 100)
+        lb.Dock = DockStyle.Fill
 
-        AddHandler tbox.KeyUp, AddressOf Me.OnKeyUp
+        sb = New StatusBar
+        sb.Parent = Me
+
+        AddHandler lb.SelectedIndexChanged, AddressOf Me.OnChanged
 
     End Sub
 
-    Private Sub OnKeyUp(ByVal sender As Object, ByVal e As KeyEventArgs)
-
-        Me.label.Text = sender.Text
-
+    Private Sub OnChanged(ByVal sender As Object, ByVal e As EventArgs)
+        sb.Text = sender.SelectedItem
     End Sub
 
 End Class
